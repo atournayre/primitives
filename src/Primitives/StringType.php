@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Atournayre\Primitives\Primitives;
 
 use Atournayre\Primitives\Contracts\StringInterface;
+
 use function Symfony\Component\String\u;
 
 class StringType implements StringInterface
@@ -23,24 +25,29 @@ class StringType implements StringInterface
     public function append(string ...$suffix): StringInterface
     {
         $u = u($this->value)->append(...$suffix);
+
         return self::of($u->toString());
     }
 
     public function ascii(array $rules = []): StringInterface
     {
         $u = u($this->value)->ascii($rules);
+
         return self::of($u->toString());
     }
 
     public function camel(): StringInterface
     {
         $u = u($this->value)->camel();
+
         return self::of($u->toString());
     }
 
     public function chunk(int $length = 1): array
     {
-        return u($this->value)->chunk($length);
+        $chunks = u($this->value)->chunk($length);
+
+        return array_map(fn ($chunk) => self::of($chunk->toString()), $chunks);
     }
 
     public function codePointsAt(int $offset): array
@@ -53,12 +60,12 @@ class StringType implements StringInterface
         return u($this->value)->containsAny($needle);
     }
 
-    public function endsWith($suffix): bool
+    public function endsWith(string|iterable $suffix): bool
     {
         return u($this->value)->endsWith($suffix);
     }
 
-    public function equalsTo($string): bool
+    public function equalsTo(string|iterable $string): bool
     {
         return u($this->value)->equalsTo($string);
     }
@@ -66,28 +73,32 @@ class StringType implements StringInterface
     public function folded(bool $compat = true): StringInterface
     {
         $u = u($this->value)->folded($compat);
+
         return self::of($u->toString());
     }
 
-    public function indexOf($needle, int $offset = 0): ?int
+    public function indexOf(string|iterable $needle, int $offset = 0): ?int
     {
         return u($this->value)->indexOf($needle, $offset);
     }
 
-    public function indexOfLast($needle, int $offset = 0): ?int
+    public function indexOfLast(string|iterable $needle, int $offset = 0): ?int
     {
         return u($this->value)->indexOfLast($needle, $offset);
     }
 
-    public function join(array $strings, string $lastGlue = null): StringInterface
+    // @phpstan-ignore-next-line
+    public function join(array $strings, ?string $lastGlue = null): StringInterface
     {
         $u = u($this->value)->join($strings, $lastGlue);
+
         return self::of($u->toString());
     }
 
     public function kebab(): StringInterface
     {
         $u = u($this->value)->snake()->replace('_', '-');
+
         return self::of($u->toString());
     }
 
@@ -99,9 +110,11 @@ class StringType implements StringInterface
     public function lower(): StringInterface
     {
         $u = u($this->value)->lower();
+
         return self::of($u->toString());
     }
 
+    // @phpstan-ignore-next-line
     public function match(string $regexp, int $flags = 0, int $offset = 0): array
     {
         return u($this->value)->match($regexp, $flags, $offset);
@@ -110,54 +123,63 @@ class StringType implements StringInterface
     public function normalize(int $form = self::NFC): StringInterface
     {
         $u = u($this->value)->normalize($form);
+
         return self::of($u->toString());
     }
 
     public function padBoth(int $length, string $padStr = ' '): StringInterface
     {
         $u = u($this->value)->padBoth($length, $padStr);
+
         return self::of($u->toString());
     }
 
     public function padEnd(int $length, string $padStr = ' '): StringInterface
     {
         $u = u($this->value)->padEnd($length, $padStr);
+
         return self::of($u->toString());
     }
 
     public function padStart(int $length, string $padStr = ' '): StringInterface
     {
         $u = u($this->value)->padStart($length, $padStr);
+
         return self::of($u->toString());
     }
 
     public function prepend(string ...$prefix): StringInterface
     {
         $u = u($this->value)->prepend(...$prefix);
+
         return self::of($u->toString());
     }
 
     public function repeat(int $multiplier): StringInterface
     {
         $u = u($this->value)->repeat($multiplier);
+
         return self::of($u->toString());
     }
 
     public function replace(string $from, string $to): StringInterface
     {
         $u = u($this->value)->replace($from, $to);
+
         return self::of($u->toString());
     }
 
-    public function replaceMatches(string $fromRegexp, $to): StringInterface
+    public function replaceMatches(string $fromRegexp, string|callable $to): StringInterface
     {
         $u = u($this->value)->replaceMatches($fromRegexp, $to);
+
         return self::of($u->toString());
     }
 
     public function reverse(): StringInterface
     {
         $u = u($this->value)->reverse();
+
         return self::of($u->toString());
     }
 
@@ -171,27 +193,32 @@ class StringType implements StringInterface
         return self::of($this->value)->snake()->upper();
     }
 
-    public function slice(int $start = 0, int $length = null): StringInterface
+    public function slice(int $start = 0, ?int $length = null): StringInterface
     {
         $u = u($this->value)->slice($start, $length);
+
         return self::of($u->toString());
     }
 
     public function snake(): StringInterface
     {
         $u = u($this->value)->snake();
+
         return self::of($u->toString());
     }
 
-    public function splice(string $replacement, int $start = 0, int $length = null): StringInterface
+    public function splice(string $replacement, int $start = 0, ?int $length = null): StringInterface
     {
         $u = u($this->value)->splice($replacement, $start, $length);
+
         return self::of($u->toString());
     }
 
-    public function split(string $delimiter, int $limit = null, int $flags = null): array
+    public function split(string $delimiter, ?int $limit = null, ?int $flags = null): array
     {
-        return u($this->value)->split($delimiter, $limit, $flags);
+        $splits = u($this->value)->split($delimiter, $limit, $flags);
+
+        return array_map(fn ($chunk) => self::of($chunk->toString()), $splits);
     }
 
     public function startsWith($prefix): bool
@@ -202,42 +229,49 @@ class StringType implements StringInterface
     public function title(bool $allWords = false): StringInterface
     {
         $u = u($this->value)->title($allWords);
+
         return self::of($u->toString());
     }
 
     public function trim(string $chars = " \t\n\r\0\x0B\x0C\u{A0}\u{FEFF}"): StringInterface
     {
         $u = u($this->value)->trim($chars);
+
         return self::of($u->toString());
     }
 
     public function trimEnd(string $chars = " \t\n\r\0\x0B\x0C\u{A0}\u{FEFF}"): StringInterface
     {
         $u = u($this->value)->trimEnd($chars);
+
         return self::of($u->toString());
     }
 
     public function trimPrefix($prefix): StringInterface
     {
         $u = u($this->value)->trimPrefix($prefix);
+
         return self::of($u->toString());
     }
 
     public function trimStart(string $chars = " \t\n\r\0\x0B\x0C\u{A0}\u{FEFF}"): StringInterface
     {
         $u = u($this->value)->trimStart($chars);
+
         return self::of($u->toString());
     }
 
     public function trimSuffix($suffix): StringInterface
     {
         $u = u($this->value)->trimSuffix($suffix);
+
         return self::of($u->toString());
     }
 
     public function upper(): StringInterface
     {
         $u = u($this->value)->upper();
+
         return self::of($u->toString());
     }
 
