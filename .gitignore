@@ -1,4 +1,8 @@
-vendor/
+var/
+/vendor/
 composer.lock
+
+# PHPUnit
 .phpunit.cache
-.php_cs.cache
+.phpunit.result.cache
+.php-cs-fixer.cache
