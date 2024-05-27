@@ -10,12 +10,11 @@
         <ini name="error_reporting" value="-1"/>
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[direct]=0" />
         <env name="APP_DEBUG" value="0"/>
-        <env name="KERNEL_CLASS" value="Eniams\FooBundle\Tests\App\AppKernel"/>
     </php>
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>Tests</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>
