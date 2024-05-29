@@ -8,6 +8,11 @@ use Atournayre\Primitives\Contracts\StringInterface;
 
 use function Symfony\Component\String\u;
 
+// TODO Remplacer les retours de primitives par des types ???
+// TODO Remplacer les retours de primitives par des types ???
+// TODO Remplacer les retours de primitives par des types ???
+// TODO Remplacer les retours de primitives par des types ???
+// TODO Remplacer les retours de primitives par des types ???
 class StringType implements StringInterface
 {
     private string $value;
@@ -283,5 +288,10 @@ class StringType implements StringInterface
     public function width(bool $ignoreAnsiDecoration = true): int
     {
         return u($this->value)->width($ignoreAnsiDecoration);
+    }
+
+    public function __toString(): string
+    {
+        return $this->value;
     }
 }

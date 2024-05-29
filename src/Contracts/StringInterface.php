@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atournayre\Primitives\Contracts;
 
-interface StringInterface
+interface StringInterface extends \Stringable
 {
     public const NFC = \Normalizer::NFC;
     public const NFD = \Normalizer::NFD;
