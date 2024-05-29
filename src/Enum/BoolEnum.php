@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Atournayre\Primitives\Enum;
 
-enum Boolean
+enum BoolEnum
 {
     case TRUE;
     case FALSE;
 
-    public function fromBool(bool $value): self
+    public static function fromBool(bool $value): self
     {
         return match ($value) {
             true => self::TRUE,

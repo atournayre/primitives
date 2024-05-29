@@ -6,13 +6,9 @@ namespace Atournayre\Primitives\Primitives;
 
 use Atournayre\Primitives\Contracts\StringInterface;
 
+use Atournayre\Primitives\Enum\BoolEnum;
 use function Symfony\Component\String\u;
 
-// TODO Remplacer les retours de primitives par des types ???
-// TODO Remplacer les retours de primitives par des types ???
-// TODO Remplacer les retours de primitives par des types ???
-// TODO Remplacer les retours de primitives par des types ???
-// TODO Remplacer les retours de primitives par des types ???
 class StringType implements StringInterface
 {
     private string $value;
@@ -60,19 +56,22 @@ class StringType implements StringInterface
         return u($this->value)->codePointsAt($offset);
     }
 
-    public function containsAny($needle): bool
+    public function containsAny($needle): BoolEnum
     {
-        return u($this->value)->containsAny($needle);
+        $containsAny = u($this->value)->containsAny($needle);
+        return BoolEnum::fromBool($containsAny);
     }
 
-    public function endsWith(string|iterable $suffix): bool
+    public function endsWith(string|iterable $suffix): BoolEnum
     {
-        return u($this->value)->endsWith($suffix);
+        $endsWith = u($this->value)->endsWith($suffix);
+        return BoolEnum::fromBool($endsWith);
     }
 
-    public function equalsTo(string|iterable $string): bool
+    public function equalsTo(string|iterable $string): BoolEnum
     {
-        return u($this->value)->equalsTo($string);
+        $equalsTo = u($this->value)->equalsTo($string);
+        return BoolEnum::fromBool($equalsTo);
     }
 
     public function folded(bool $compat = true): StringInterface
@@ -226,9 +225,10 @@ class StringType implements StringInterface
         return array_map(fn ($chunk) => self::of($chunk->toString()), $splits);
     }
 
-    public function startsWith($prefix): bool
+    public function startsWith($prefix): BoolEnum
     {
-        return u($this->value)->startsWith($prefix);
+        $startsWith = u($this->value)->startsWith($prefix);
+        return BoolEnum::fromBool($startsWith);
     }
 
     public function title(bool $allWords = false): StringInterface

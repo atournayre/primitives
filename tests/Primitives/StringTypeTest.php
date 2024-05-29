@@ -108,28 +108,28 @@ class StringTypeTest extends TestCase
     {
         $string = StringType::of('Hello');
         $result = $string->containsAny('ell');
-        self::assertTrue($result);
+        self::assertTrue($result->isTrue());
     }
 
     public function testContainsAnyReturnsFalseWhenNeedleIsNotFound(): void
     {
         $string = StringType::of('Hello');
         $result = $string->containsAny('xyz');
-        self::assertFalse($result);
+        self::assertTrue($result->isFalse());
     }
 
     public function testContainsAnyReturnsTrueWhenNeedleIsFoundInArray(): void
     {
         $string = StringType::of('Hello');
         $result = $string->containsAny(['xyz', 'ell']);
-        self::assertTrue($result);
+        self::assertTrue($result->isTrue());
     }
 
     public function testContainsAnyReturnsFalseWhenNeedleIsNotFoundInArray(): void
     {
         $string = StringType::of('Hello');
         $result = $string->containsAny(['xyz', 'abc']);
-        self::assertFalse($result);
+        self::assertTrue($result->isFalse());
     }
 
     public function testContainsAnyDoesNotChangeOriginalString(): void
@@ -143,14 +143,14 @@ class StringTypeTest extends TestCase
     {
         $string = StringType::of('Hello');
         $result = $string->endsWith('lo');
-        self::assertTrue($result);
+        self::assertTrue($result->isTrue());
     }
 
     public function testEndsWithReturnsFalseWhenSuffixIsNotAtEndOfString(): void
     {
         $string = StringType::of('Hello');
         $result = $string->endsWith('He');
-        self::assertFalse($result);
+        self::assertTrue($result->isFalse());
     }
 
     public function testEndsWithDoesNotChangeOriginalString(): void
@@ -164,14 +164,14 @@ class StringTypeTest extends TestCase
     {
         $string = StringType::of('Hello');
         $result = $string->equalsTo('Hello');
-        self::assertTrue($result);
+        self::assertTrue($result->isTrue());
     }
 
     public function testEqualsToReturnsFalseWhenStringsAreNotEqual(): void
     {
         $string = StringType::of('Hello');
         $result = $string->equalsTo('World');
-        self::assertFalse($result);
+        self::assertTrue($result->isFalse());
     }
 
     public function testEqualsToDoesNotChangeOriginalString(): void
@@ -568,14 +568,14 @@ class StringTypeTest extends TestCase
     {
         $string = StringType::of('Hello');
         $result = $string->startsWith('He');
-        self::assertTrue($result);
+        self::assertTrue($result->isTrue());
     }
 
     public function testStartsWithReturnsFalseWhenPrefixIsNotAtStartOfString(): void
     {
         $string = StringType::of('Hello');
         $result = $string->startsWith('lo');
-        self::assertFalse($result);
+        self::assertTrue($result->isFalse());
     }
 
     public function testStartsWithDoesNotChangeOriginalString(): void

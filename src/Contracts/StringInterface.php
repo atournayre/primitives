@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Atournayre\Primitives\Contracts;
 
+use Atournayre\Primitives\Enum\BoolEnum;
+
 interface StringInterface extends \Stringable
 {
     public const NFC = \Normalizer::NFC;
@@ -37,17 +39,17 @@ interface StringInterface extends \Stringable
     /**
      * @param string|string[] $needle
      */
-    public function containsAny(string|iterable $needle): bool;
+    public function containsAny(string|iterable $needle): BoolEnum;
 
     /**
      * @param string|string[] $suffix
      */
-    public function endsWith(string|iterable $suffix): bool;
+    public function endsWith(string|iterable $suffix): BoolEnum;
 
     /**
      * @param string|string[] $string
      */
-    public function equalsTo(string|iterable $string): bool;
+    public function equalsTo(string|iterable $string): BoolEnum;
 
     public function folded(bool $compat = true): self;
 
@@ -109,7 +111,7 @@ interface StringInterface extends \Stringable
     /**
      * @param string|string[] $prefix
      */
-    public function startsWith($prefix): bool;
+    public function startsWith($prefix): BoolEnum;
 
     public function title(bool $allWords = false): self;
 
