@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Atournayre\Primitives\Primitives;
 
-use Atournayre\Primitives\Contracts\NumericInterface;
 use Atournayre\Primitives\Enum\Locale;
 
-class Numeric implements NumericInterface
+class Numeric
 {
     private int $value;
     private int $precision;
