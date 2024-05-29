@@ -65,16 +65,31 @@ class Numeric implements NumericInterface
         return $this->precision;
     }
 
+    /**
+     * @throws \RuntimeException
+     */
     public function format(Locale $locale): string
     {
         $fmt = new \NumberFormatter($locale->name, \NumberFormatter::DECIMAL);
 
-        return $fmt->format($this->value());
+        $format = $fmt->format($this->value());
+        if (false === $format) {
+            throw new \RuntimeException('Failed to format the number.');
+        }
+
+        return $format;
     }
 
     public function round(int $mode = PHP_ROUND_HALF_UP): self
     {
-        $roundedValue = round($this->value(), $this->precision, $mode);
+        $roundedValue = match ($mode) {
+            PHP_ROUND_HALF_UP => round($this->value(), $this->precision()),
+            PHP_ROUND_HALF_DOWN => round($this->value(), $this->precision(), PHP_ROUND_HALF_DOWN),
+            PHP_ROUND_HALF_EVEN => round($this->value(), $this->precision(), PHP_ROUND_HALF_EVEN),
+            PHP_ROUND_HALF_ODD => round($this->value(), $this->precision(), PHP_ROUND_HALF_ODD),
+            default => throw new \InvalidArgumentException('Invalid rounding mode provided.'),
+        };
+
         return new self($roundedValue, $this->precision);
     }
 }

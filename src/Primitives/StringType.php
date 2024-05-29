@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Atournayre\Primitives\Primitives;
 
 use Atournayre\Primitives\Contracts\StringInterface;
-
 use Atournayre\Primitives\Enum\BoolEnum;
+
 use function Symfony\Component\String\u;
 
 class StringType implements StringInterface
@@ -59,18 +59,21 @@ class StringType implements StringInterface
     public function containsAny($needle): BoolEnum
     {
         $containsAny = u($this->value)->containsAny($needle);
+
         return BoolEnum::fromBool($containsAny);
     }
 
     public function endsWith(string|iterable $suffix): BoolEnum
     {
         $endsWith = u($this->value)->endsWith($suffix);
+
         return BoolEnum::fromBool($endsWith);
     }
 
     public function equalsTo(string|iterable $string): BoolEnum
     {
         $equalsTo = u($this->value)->equalsTo($string);
+
         return BoolEnum::fromBool($equalsTo);
     }
 
@@ -228,6 +231,7 @@ class StringType implements StringInterface
     public function startsWith($prefix): BoolEnum
     {
         $startsWith = u($this->value)->startsWith($prefix);
+
         return BoolEnum::fromBool($startsWith);
     }
 
