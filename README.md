@@ -17,7 +17,9 @@ Documentation
 - Enum
   - [Boolean](doc/boolean.md)
   - Locale
-
+- Primitives
+  - [Numeric](doc/numeric.md)
+  - [String](doc/string.md)
 
 Contribute
 ----------
