@@ -181,6 +181,20 @@ class StringTypeTest extends TestCase
         self::assertEquals('Hello', $string->value());
     }
 
+    public function testFilterVarReturnsTrueWhenStringIsValid(): void
+    {
+        $string = StringType::of('email@example.com');
+        $result = $string->filterVar(FILTER_VALIDATE_EMAIL);
+        self::assertSame('email@example.com', $result->value());
+    }
+
+    public function testFilterVarThrowExceptionWhenStringIsInvalid(): void
+    {
+        self::expectException(\InvalidArgumentException::class);
+        $string = StringType::of('email@example');
+        $string->filterVar(FILTER_VALIDATE_EMAIL);
+    }
+
     public function testFoldedConvertsStringToFoldedCase(): void
     {
         $string = StringType::of('Hello');
@@ -317,8 +331,52 @@ class StringTypeTest extends TestCase
     public function testLengthReturnsLengthOfString(): void
     {
         $string = StringType::of('Hello');
-        $result = $string->length();
+        $result = $string->length()->intValue();
         self::assertEquals(5, $result);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testLengthBetweenReturnsTrueWhenLengthIsBetweenBounds(): void
+    {
+        $string = StringType::of('Hello');
+        $result = $string->lengthIsBetween(1, 10);
+        self::assertTrue($result->isTrue());
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testLengthBetweenThrowExceptionWhenLengthIsBetweenBounds(): void
+    {
+        self::expectException(\InvalidArgumentException::class);
+        StringType::of('Hello')
+            ->lengthIsBetween(1, 10)
+            ->throwIfTrue(new \InvalidArgumentException())
+        ;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testLengthBetweenThrowExceptionWhenLengthIsNotBetweenBounds(): void
+    {
+        self::expectException(\InvalidArgumentException::class);
+        StringType::of('Hello')
+            ->lengthIsBetween(10, 20)
+            ->throwIfFalse(new \InvalidArgumentException())
+        ;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testLengthBetweenReturnsFalseWhenLengthIsNotBetweenBounds(): void
+    {
+        $string = StringType::of('Hello');
+        $result = $string->lengthIsBetween(10, 20);
+        self::assertTrue($result->isFalse());
     }
 
     public function testLowerConvertsStringToLowercase(): void

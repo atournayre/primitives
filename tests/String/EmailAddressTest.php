@@ -43,4 +43,10 @@ class EmailAddressTest extends TestCase
         $email = EmailAddress::of('test@example.com');
         self::assertEquals('test@example.com', (string) $email);
     }
+
+    public function testTooLongEmail(): void
+    {
+        self::expectException(\InvalidArgumentException::class);
+        EmailAddress::of('test'.str_repeat('a', 250).'@example.com');
+    }
 }

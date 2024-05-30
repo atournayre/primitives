@@ -11,12 +11,19 @@ class EmailAddress
 {
     use StringTypeTrait;
 
+    private const MAX_LENGTH = 254;
+    private const MIN_LENGTH = 5;
+
+    /**
+     * @throws \Exception
+     */
     private function __construct(StringType $value)
     {
-        if (!filter_var($value->value(), FILTER_VALIDATE_EMAIL)) {
-            throw new \InvalidArgumentException('Invalid email address');
-        }
-        $this->value = $value;
+        $value->lengthIsBetween(self::MIN_LENGTH, self::MAX_LENGTH)
+            ->throwIfFalse('Email address must be between '.self::MIN_LENGTH.' and '.self::MAX_LENGTH.' characters long')
+        ;
+
+        $this->value = $value->filterVar(FILTER_VALIDATE_EMAIL);
     }
 
     public function localPart(): EmailLocalPart

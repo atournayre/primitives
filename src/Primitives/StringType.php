@@ -103,6 +103,23 @@ class StringType
         return BoolEnum::fromBool($equalsTo);
     }
 
+    public function filterVar(int $filter = FILTER_DEFAULT, mixed $options = null): self
+    {
+        $filterVar = filter_var($this->value, $filter, $options ?? []);
+        if (false === $filterVar) {
+            $message = match ($filter) {
+                FILTER_VALIDATE_EMAIL => 'Invalid email address',
+                FILTER_VALIDATE_URL => 'Invalid URL',
+                FILTER_VALIDATE_IP => 'Invalid IP address',
+                default => 'Invalid value',
+            };
+
+            throw new \InvalidArgumentException($message);
+        }
+
+        return self::of($filterVar);
+    }
+
     public function folded(bool $compat = true): self
     {
         $u = u($this->value)->folded($compat);
@@ -141,9 +158,22 @@ class StringType
         return self::of($u->toString());
     }
 
-    public function length(): int
+    public function length(): Numeric
     {
-        return u($this->value)->length();
+        $length = u($this->value)->length();
+
+        return Numeric::of($length);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function lengthIsBetween(int $start, int $end): BoolEnum
+    {
+        return self::of($this->value)
+            ->length()
+            ->betweenOrEqual($start, $end)
+        ;
     }
 
     public function lower(): self
