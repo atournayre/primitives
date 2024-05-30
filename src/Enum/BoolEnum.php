@@ -50,4 +50,46 @@ enum BoolEnum
     {
         return self::FALSE === $this;
     }
+
+    public function yes(): bool
+    {
+        return $this->isTrue();
+    }
+
+    public function no(): bool
+    {
+        return $this->isFalse();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function throwIfFalse(string|\Exception $message): void
+    {
+        if ($this->isTrue()) {
+            return;
+        }
+
+        if (is_string($message)) {
+            throw new \InvalidArgumentException($message);
+        }
+
+        throw $message;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function throwIfTrue(string|\Exception $message): void
+    {
+        if ($this->isFalse()) {
+            return;
+        }
+
+        if (is_string($message)) {
+            throw new \InvalidArgumentException($message);
+        }
+
+        throw $message;
+    }
 }

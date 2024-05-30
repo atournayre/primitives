@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Atournayre\Primitives\Primitives;
 
+use Atournayre\Primitives\Enum\BoolEnum;
 use Atournayre\Primitives\Enum\Locale;
 
 class Numeric
@@ -90,5 +91,79 @@ class Numeric
         };
 
         return new self($roundedValue, $this->precision);
+    }
+
+    public function greaterThan(int|self $numeric): BoolEnum
+    {
+        $that = $numeric instanceof self ? $numeric : self::of($numeric);
+        $greaterThan = $this->intValue() > $that->intValue();
+        return BoolEnum::fromBool($greaterThan);
+    }
+
+    public function greaterThanOrEqual(int|self $numeric): BoolEnum
+    {
+        $that = $numeric instanceof self ? $numeric : self::of($numeric);
+        $greaterThanOrEqual = $this->value() >= $that->value();
+        return BoolEnum::fromBool($greaterThanOrEqual);
+    }
+
+    public function lessThan(int|self $numeric): BoolEnum
+    {
+        $that = $numeric instanceof self ? $numeric : self::of($numeric);
+        $lessThan = $this->value() < $that->value();
+        return BoolEnum::fromBool($lessThan);
+    }
+
+    public function lessThanOrEqual(int|self $numeric): BoolEnum
+    {
+        $that = $numeric instanceof self ? $numeric : self::of($numeric);
+        $lessThanOrEqual = $this->value() <= $that->value();
+        return BoolEnum::fromBool($lessThanOrEqual);
+    }
+
+    public function equalTo(int|self $numeric): BoolEnum
+    {
+        $that = $numeric instanceof self ? $numeric : self::of($numeric);
+        $equalTo = $this->value() === $that->value();
+        return BoolEnum::fromBool($equalTo);
+    }
+
+    public function notEqualTo(int|self $numeric): BoolEnum
+    {
+        $that = $numeric instanceof self ? $numeric : self::of($numeric);
+        $equalTo = $this->value() !== $that->value();
+        return BoolEnum::fromBool($equalTo);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function between(int|self $min, int|self $max): BoolEnum
+    {
+        Numeric::of($min)
+            ->greaterThan($max)
+            ->throwIfTrue('The minimum value must be less than the maximum value.')
+        ;
+
+        $between = $this->greaterThan($min)->isTrue()
+            && $this->lessThan($max)->isTrue();
+
+        return BoolEnum::fromBool($between);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function betweenOrEqual(int|self $min, int|self $max): BoolEnum
+    {
+        Numeric::of($min)
+            ->greaterThan($max)
+            ->throwIfTrue('The minimum value must be less than the maximum value.')
+        ;
+
+        $between = $this->greaterThanOrEqual($min)->isTrue()
+            && $this->lessThanOrEqual($max)->isTrue();
+
+        return BoolEnum::fromBool($between);
     }
 }

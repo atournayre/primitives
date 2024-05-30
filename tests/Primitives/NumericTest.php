@@ -52,6 +52,7 @@ class NumericTest extends TestCase
         $formattedValue = $number->format(Locale::EN_US);
         self::assertEquals('1,234.56', $formattedValue);
     }
+
     public function testRoundWithDefaultMode(): void
     {
         $number = Numeric::of(1.234567, 2);
@@ -85,5 +86,85 @@ class NumericTest extends TestCase
         $number = Numeric::of(1.255, 2);
         $roundedNumber = $number->round(PHP_ROUND_HALF_ODD);
         self::assertEquals(1.26, $roundedNumber->value());
+    }
+
+    public function testGreaterThan(): void
+    {
+        $number = Numeric::of(2);
+        $greaterThan = $number->greaterThan(1);
+        self::assertTrue($greaterThan->yes());
+    }
+
+    public function testGreaterThanOrEqual(): void
+    {
+        $number = Numeric::of(2);
+        $greaterThanOrEqual = $number->greaterThanOrEqual(2);
+        self::assertTrue($greaterThanOrEqual->yes());
+    }
+
+    public function testLessThan(): void
+    {
+        $number = Numeric::of(2);
+        $lessThan = $number->lessThan(3);
+        self::assertTrue($lessThan->yes());
+    }
+
+    public function testLessThanOrEqual(): void
+    {
+        $number = Numeric::of(2);
+        $lessThanOrEqual = $number->lessThanOrEqual(2);
+        self::assertTrue($lessThanOrEqual->yes());
+    }
+
+    public function testEqualTo(): void
+    {
+        $number = Numeric::of(2);
+        $equalTo = $number->equalTo(2);
+        self::assertTrue($equalTo->yes());
+    }
+
+    public function testNotEqualTo(): void
+    {
+        $number = Numeric::of(2);
+        $notEqualTo = $number->notEqualTo(3);
+        self::assertTrue($notEqualTo->yes());
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testBetween(): void
+    {
+        $number = Numeric::of(2);
+        $between = $number->between(1, 3);
+        self::assertTrue($between->yes());
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testBetweenWithInvertedBounds(): void
+    {
+        self::expectException(\InvalidArgumentException::class);
+        Numeric::of(2)->between(3, 1);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testBetweenOrEqual(): void
+    {
+        $number = Numeric::of(2);
+        $betweenOrEqual = $number->betweenOrEqual(2, 3);
+        self::assertTrue($betweenOrEqual->yes());
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testBetweenOrEqualWithInvertedBounds(): void
+    {
+        self::expectException(\InvalidArgumentException::class);
+        Numeric::of(2)->betweenOrEqual(3, 2);
     }
 }
