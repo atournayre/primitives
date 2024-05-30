@@ -45,7 +45,7 @@ This library provides a `StringType` class to manipulate strings.
 - `trimSuffix(suffix: string|string[]): StringType`
 - `upper(): StringType`
 - `value(): string`
-- `width([ignoreAnsiDecoration: bool = true]): int`
+- `width([ignoreAnsiDecoration: bool = true]): Numeric`
 - `__toString(): string`
 
 # Others string types

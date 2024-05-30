@@ -363,9 +363,11 @@ class StringType
         return $this->value;
     }
 
-    public function width(bool $ignoreAnsiDecoration = true): int
+    public function width(bool $ignoreAnsiDecoration = true): Numeric
     {
-        return u($this->value)->width($ignoreAnsiDecoration);
+        $width = u($this->value)->width($ignoreAnsiDecoration);
+
+        return Numeric::of($width);
     }
 
     public function __toString(): string

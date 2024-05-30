@@ -800,14 +800,14 @@ class StringTypeTest extends TestCase
     {
         $string = StringType::of('Hello');
         $result = $string->width();
-        self::assertEquals(5, $result);
+        self::assertEquals(5, $result->intValue());
     }
 
     public function testWidthIgnoresAnsiDecoration(): void
     {
         $string = StringType::of("\033[31mHello\033[0m");
         $result = $string->width();
-        self::assertEquals(5, $result);
+        self::assertEquals(5, $result->intValue());
     }
 
     public function testWidthDoesNotChangeOriginalString(): void
