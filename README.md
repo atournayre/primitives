@@ -16,6 +16,7 @@ Documentation
 ----------
 - Enum
   - [Boolean](doc/boolean.md)
+  - Locale
 
 
 Contribute
