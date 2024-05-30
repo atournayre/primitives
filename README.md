@@ -12,6 +12,12 @@ Use [Composer] to install the package:
 composer require atournayre/primitives
 ```
 
+Documentation
+----------
+- Enum
+  - [Boolean](doc/boolean.md)
+
+
 Contribute
 ----------
 
